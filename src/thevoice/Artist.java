@@ -2,6 +2,7 @@ package thevoice;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,7 +13,7 @@ import org.jsoup.select.Elements;
  * @author anna
  */
 public class Artist {
-    private WordsList textsWords = new WordsList();
+    private final WordsList textsWords = new WordsList();
     private final String name;
     
     Artist(String name) {
@@ -21,15 +22,9 @@ public class Artist {
     
     public void addTextsFromFolder(String path) throws IOException {
         String artistFolder = path + "/" + name;
-        File f = new File(artistFolder);
-        if (f.exists() && f.isDirectory()) {
-            File[] files = f.listFiles();
-            for (File file: files) {
-                System.out.println(file.toString());
-                if (file.toString().endsWith(".txt"))
-                    textsWords.addFromFile(file.toString());
-            }
-        }
+        File[] files = FilesSupport.TxtFilesFromFolder(artistFolder);
+        for (File file: files)
+            textsWords.addFromFile(file.toString());
     }
     
     public void addTextsFromAZLyrics() throws IOException {
@@ -38,6 +33,7 @@ public class Artist {
         String link = "http://students.mimuw.edu.pl/~ap360585/azlyrics/" + newName.charAt(0) + "/" + newName + ".html";
         
         System.out.println(link);
+        try {
         Document d = Jsoup.connect(link).get();
             for (Element e : d.select("a[href^=\"../lyrics\"")) {
                 //System.out.println(e.attr("href"));
@@ -47,6 +43,9 @@ public class Artist {
                 Element links = doc.select("div.ringtone ~ div").first();
                 textsWords.addFromString(links.text());
             }
+        } catch (org.jsoup.HttpStatusException e) {
+            
+        }
     }
 
     public void addTextsFromTekstyorg() throws IOException {
@@ -79,10 +78,17 @@ public class Artist {
         
     }
     
-    public WordsList getTexts() {
-        return textsWords;
+    public List top5(WordsList filters) {
+        WordsList words = new WordsList(textsWords);
+        words.remove(filters);
+        OccurencesList occurences = new OccurencesList(words);
+        return occurences.getTheMostCommon(5);
     }
-
+    
+    public int different() {
+        return textsWords.countDifferentWords();
+    }
+    
     String getName() {
         return name;
     }

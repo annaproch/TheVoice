@@ -9,12 +9,12 @@ import java.util.ArrayList;
  * @author anna
  */
 public class TheVoice {
-    private static ArrayList<Artist> artists = new ArrayList<>();
+    private static final ArrayList<Artist> artists = new ArrayList<>();
     private static String sourceType;
     private static String source;
     private static String[] processors;
     private static String[] filtersPaths = new String[]{};
-    private static WordsSet filters = new WordsSet();
+    private static final WordsList filters = new WordsList();
     
     
     public static void main(String[] args) throws IOException {
@@ -58,18 +58,16 @@ public class TheVoice {
                 break;
         }
         
-        
-        
         for (String processor: processors) {
             System.out.println(processor);
             for (Artist artist: artists) {
-                System.out.println(artist.getName() + " ");
+                System.out.print(artist.getName() + " ");
                 switch (processor) {
                     case "top5":
-                        System.out.println(Statistics.top5(artist.getTexts(), filters));
+                        System.out.println(artist.top5(filters));
                         break;
                     case "count":
-                        System.out.println(Statistics.different(artist.getTexts()));
+                        System.out.println(artist.different());
                         break;
                 }
             }
