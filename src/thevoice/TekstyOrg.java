@@ -19,9 +19,10 @@ import org.jsoup.select.Elements;
  *
  * @author anna
  */
-public class TekstyOrg {
+public class TekstyOrg extends NetSource {
 
-    static String[] getSongsLinks(String name) {
+    @Override
+    String[] getSongsLinks(String name) {
         List<String> results = new ArrayList<>();
         String newName = name.toLowerCase().replace(" ", "-");
         //String link = "http://www.azlyrics.com/" + newName.charAt(0) + "/" + newName + ".html";
@@ -47,17 +48,13 @@ public class TekstyOrg {
         return results.toArray(new String[0]);
     }
 
-    static String getSongStringFromLink(String link) {
+    @Override
+    String getSongStringFromLink(String link) {
         try {
             Document page = Jsoup.connect(link).get();
             return page.select("div.originalText").get(0).text();
         } catch (IOException ex) {
             return "";
         }
-    }
-    
-            
-        
-
-    
+    }    
 }

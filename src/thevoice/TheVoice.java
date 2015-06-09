@@ -10,53 +10,46 @@ import java.util.ArrayList;
  */
 public class TheVoice {
     private static final ArrayList<Artist> artists = new ArrayList<>();
-    private static String sourceType;
-    private static String source;
+    private static Source source;
     private static String[] processors;
-    private static String[] filtersPaths = new String[]{};
     private static final WordsList filters = new WordsList();
-    
     
     public static void main(String[] args) throws IOException {
         for (String arg: args) {
             if (arg.startsWith("--")) {
                  String[] params = arg.split("=");
                  String param = params[0].substring(2);
-                 switch (param) {
+                 switch  (param) {
                      case "source-type":
-                         sourceType = params[1];
+                         switch (params[1]) {
+                            case "file": 
+                                source = new FilesSource();
+                                break;
+                            case "azlyrics.com":
+                                source = new AZLyrics();
+                                break;
+                            case "teksty.org":
+                                source = new TekstyOrg();
+                                break;
+                         }
                          break;
                      case "source":
-                         source = params[1];
+                         source.setSource(params[1]);
                          break;
                      case "processors":
                          processors = params[1].split(",");
                          break;
                      case "filters":
-                         filtersPaths = params[1].split(File.pathSeparator);
-                         break;
-                     default:
+                         String[] paths = params[1].split(File.pathSeparator);
+                         for (String filterPath: paths)
+                            filters.addFromFile(filterPath);
                          break;
                  }
             } else artists.add(new Artist(arg));
         }
-        for (String filterPath: filtersPaths)
-            filters.addFromFile(filterPath);
-            
-        switch (sourceType) {
-            case "file": 
-                for (Artist artist: artists)
-                    artist.addTextsFromFolder(source);
-                break;
-            case "azlyrics.com":
-                for (Artist artist: artists)
-                    artist.addTextsFromAZLyrics();
-                break;
-            case "teksty.org":
-                for (Artist artist: artists)
-                    artist.addTextsFromTekstyorg();
-                break;
-        }
+                        
+        for (Artist artist: artists)
+            artist.addTextsFromSource(source);
         
         for (String processor: processors) {
             System.out.println(processor);
@@ -64,7 +57,7 @@ public class TheVoice {
                 System.out.print(artist.getName() + " ");
                 switch (processor) {
                     case "top5":
-                        System.out.println(artist.top5(filters));
+                        System.out.println(artist.topWords(filters, 5));
                         break;
                     case "count":
                         System.out.println(artist.different());

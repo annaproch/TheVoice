@@ -23,7 +23,7 @@ public class WordsList {
     }
 
     void addFromFile(String path) {
-        String text = FilesSupport.textStringFromFile(path);
+        String text = FilesSource.textStringFromFile(path);
         addFromString(text);
     }
     

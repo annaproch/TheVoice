@@ -3,8 +3,6 @@ package thevoice;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,9 +11,10 @@ import org.jsoup.nodes.Element;
  *
  * @author anna
  */
-public class AZLyrics {
+public class AZLyrics extends NetSource {
 
-    static String[] getSongsLinks(String name) {
+    @Override
+    String[] getSongsLinks(String name) {
         List<String> links = new ArrayList<>();
         String newName = name.toLowerCase().replace(" ", "");
         //String link = "http://www.azlyrics.com/" + newName.charAt(0) + "/" + newName + ".html";
@@ -31,7 +30,8 @@ public class AZLyrics {
         return links.toArray(new String[0]);
     }
 
-    static String getSongStringFromLink(String link) {
+    @Override
+    String getSongStringFromLink(String link) {
         try {
             //String songLink = "http://www.azlyrics.com/" + link;
             String songLink = "http://students.mimuw.edu.pl/~ap360585/azlyrics/" + link;

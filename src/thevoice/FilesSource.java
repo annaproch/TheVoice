@@ -8,9 +8,9 @@ import java.nio.charset.StandardCharsets;
  *
  * @author anna
  */
-public class FilesSupport {
+public class FilesSource extends Source {
     
-    static File[] TxtFilesFromFolder(String path) {
+    File[] TxtFilesFromFolder(String path) {
         File f = new File(path);
         if (f.exists() && f.isDirectory())
             return f.listFiles(
@@ -31,5 +31,13 @@ public class FilesSupport {
                 System.err.println("Error during reading from file");
             }
         return text;
+    }
+
+    @Override
+    void addTextsToWordList(String name, WordsList wordsList) {
+        String artistPath = source + "/" + name;
+        File[] files = TxtFilesFromFolder(artistPath);
+        for (File file: files)
+            wordsList.addFromFile(file.toString());
     }
 }
