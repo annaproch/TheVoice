@@ -27,28 +27,14 @@ public class Artist {
             textsWords.addFromFile(file.toString());
     }
     
-    public void addTextsFromAZLyrics() throws IOException {
-        String newName = name.toLowerCase().replace(" ", "");
-        //String link = "http://www.azlyrics.com/" + newName.charAt(0) + "/" + newName + ".html";
-        String link = "http://students.mimuw.edu.pl/~ap360585/azlyrics/" + newName.charAt(0) + "/" + newName + ".html";
-        
-        System.out.println(link);
-        try {
-        Document d = Jsoup.connect(link).get();
-            for (Element e : d.select("a[href^=\"../lyrics\"")) {
-                //System.out.println(e.attr("href"));
-                //String songLink = "http://www.azlyrics.com/" + e.attr("href").substring(2);
-                String songLink = "http://students.mimuw.edu.pl/~ap360585/azlyrics/" + e.attr("href").substring(2);
-                Document doc = Jsoup.connect(songLink).get();
-                Element links = doc.select("div.ringtone ~ div").first();
-                textsWords.addFromString(links.text());
-            }
-        } catch (org.jsoup.HttpStatusException e) {
-            
-        }
+    public void addTextsFromAZLyrics() {
+        String[] songLinks = AZLyrics.getSongsLinks(name);
+        for (String link: songLinks)        
+            textsWords.addFromString(AZLyrics.getSongStringFromLink(link));
     }
 
     public void addTextsFromTekstyorg() throws IOException {
+        
         String newName = name.toLowerCase().replace(" ", "-");
         //String link = "http://www.azlyrics.com/" + newName.charAt(0) + "/" + newName + ".html";
         String link = "http://teksty.org/" + newName + ",teksty-piosenek/";
