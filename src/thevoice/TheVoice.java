@@ -48,11 +48,12 @@ public class TheVoice {
             } else artists.add(new Artist(arg));
         }
                         
-        for (Artist artist: artists)
+        artists.stream().forEach((artist) -> {
             artist.addTextsFromSource(source);
+        });
         
         for (String processor: processors) {
-            System.out.println(processor);
+            System.out.println(processor + ":");
             for (Artist artist: artists) {
                 System.out.print(artist.getName() + " ");
                 switch (processor) {

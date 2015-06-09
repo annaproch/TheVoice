@@ -7,10 +7,11 @@ import java.util.List;
  * @author anna
  */
 public class Artist {
-    private final WordsList textsWords = new WordsList();
+    private final WordsList textsWords;
     private final String name;
     
     Artist(String name) {
+        this.textsWords = new WordsList();
         this.name = name;
     }
     

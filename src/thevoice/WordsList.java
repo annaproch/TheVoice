@@ -7,19 +7,16 @@ import java.util.HashSet;
  *
  * @author anna
  */
-public class WordsList {
-    private final ArrayList<String> words;
-    
-    WordsList() {
-        words = new ArrayList<>();
-    }
+public class WordsList extends ArrayList {
+
+    WordsList() {}
     
     WordsList(WordsList list) {
-        words = new ArrayList<>(list.getWords());
+        this.addAll(list.getWords());
     }
     
     ArrayList<String> getWords() {
-        return new ArrayList<>(words);
+        return new ArrayList<>(this);
     }
 
     void addFromFile(String path) {
@@ -30,15 +27,11 @@ public class WordsList {
     void addFromString(String text) {
         String[] slowa = text.split("[\\s,.:;?!()-]+");
         for (String word: slowa)
-            words.add(word.toLowerCase());
-    }
-    
-    void remove(WordsList toRemove) {
-        words.removeAll(toRemove.getWords());
+            this.add(word.toLowerCase());
     }
     
     public int countDifferentWords() {
-        HashSet<String> wordsSet = new HashSet<>(words);
+        HashSet<String> wordsSet = new HashSet<>(this);
         return wordsSet.size();
     } 
 }
