@@ -5,11 +5,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- *
+ * Główna klasa progamu wyznaczającego statystyki dla tekstów piosenek podanych
+ * autorów. 
+ * Teksty mogą być pobierane z plików oraz serwisów teksty.org i azlyrics.com.
+ * Obsługiwane zliczanie różnych słów w tekstach oraz lista 5 najcześciej
+ * występujących słów (w tym możliwe odfiltrowanie słów, których nie chcemy brać
+ * pod uwagę).
  * @author anna
  */
 public class TheVoice {
-    private static final ArrayList<Artist> artists = new ArrayList<>();
+    private static final ArrayList<LyricsManager> artists = new ArrayList<>();
     private static Source source;
     private static String[] processors;
     private static final WordsList filters = new WordsList();
@@ -45,23 +50,23 @@ public class TheVoice {
                             filters.addFromFile(filterPath);
                          break;
                  }
-            } else artists.add(new Artist(arg));
+            } else artists.add(new LyricsManager(arg));
         }
                         
         artists.stream().forEach((artist) -> {
-            artist.addTextsFromSource(source);
+            artist.addLyricsFromSource(source);
         });
         
         for (String processor: processors) {
             System.out.println(processor + ":");
-            for (Artist artist: artists) {
+            for (LyricsManager artist: artists) {
                 System.out.print(artist.getName() + " ");
                 switch (processor) {
                     case "top5":
                         System.out.println(artist.topWords(filters, 5));
                         break;
                     case "count":
-                        System.out.println(artist.different());
+                        System.out.println(artist.countDifferentWords());
                         break;
                 }
             }

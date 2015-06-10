@@ -1,14 +1,14 @@
 package thevoice;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
- *
+ * Lista słów umożliwiająca dodawanie wyrazów z pliku.
  * @author anna
  */
-public class WordsList extends ArrayList {
-
+public class WordsList extends ArrayList<String> {
+    private final String SPLIT_REGEX = "[\\s,.:;?!()-]+";
+    
     WordsList() {}
     
     WordsList(WordsList list) {
@@ -25,13 +25,8 @@ public class WordsList extends ArrayList {
     }
     
     void addFromString(String text) {
-        String[] slowa = text.split("[\\s,.:;?!()-]+");
+        String[] slowa = text.split(SPLIT_REGEX);
         for (String word: slowa)
             this.add(word.toLowerCase());
-    }
-    
-    public int countDifferentWords() {
-        HashSet<String> wordsSet = new HashSet<>(this);
-        return wordsSet.size();
     } 
 }
