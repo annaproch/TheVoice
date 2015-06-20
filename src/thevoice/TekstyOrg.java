@@ -37,6 +37,7 @@ public class TekstyOrg extends NetSource {
     String[] getArtistSubpages(String name) {
         List<String> subpages = new ArrayList<>();
         String link = source + createSubpageFromArtistName(name);
+        System.out.println(link);
         String last = "";
         try {
             last = Jsoup.connect(link).get().select("a[title=Ostatnia strona]").text();
@@ -58,13 +59,13 @@ public class TekstyOrg extends NetSource {
     }
     
     @Override
-    String getSongStringFromLink(String link) {
+    Song getSongFromLink(String link) {
         try {
             Document page = Jsoup.connect(link).get();
-            return page.select("div.originalText").get(0).text();
+            return new Song(link, page.select("div.originalText").get(0).text());
         } catch (IOException ex) {
             System.err.println("Error during downloading songs lyrics");
-            return "";
+            return new Song(link, "");
         }
     }    
 }

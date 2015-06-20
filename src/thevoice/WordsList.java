@@ -18,11 +18,6 @@ public class WordsList extends ArrayList<String> {
     ArrayList<String> getWords() {
         return new ArrayList<>(this);
     }
-
-    void addFromFile(String path) {
-        String text = FilesSource.textStringFromFile(path);
-        addFromString(text);
-    }
     
     void addFromString(String text) {
         String[] slowa = text.split(SPLIT_REGEX);

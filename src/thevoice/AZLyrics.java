@@ -42,16 +42,16 @@ public class AZLyrics extends NetSource {
     }
 
     @Override
-    String getSongStringFromLink(String subLink) {
+    Song getSongFromLink(String subLink) {
         try {
             //String songLink = "https://www." + source + subLink;
             String songLink = FAKE_LINK + subLink;
             Document page = Jsoup.connect(songLink).get();
             Element lyricsTag = page.select("div.ringtone ~ div").first();
-            return lyricsTag.text();
+            return new Song(subLink, lyricsTag.text());
         } catch (IOException ex) {
             System.err.println("Error during downloading song lyrics");
-            return "";
+            return new Song(subLink, "");
         }
     }
 }

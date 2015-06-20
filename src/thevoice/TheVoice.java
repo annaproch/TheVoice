@@ -14,10 +14,10 @@ import java.util.ArrayList;
  * @author anna
  */
 public class TheVoice {
-    private static final ArrayList<LyricsManager> artists = new ArrayList<>();
+    private static final ArrayList<Artist> artists = new ArrayList<>();
     private static Source source;
     private static String[] processors;
-    private static final WordsList filters = new WordsList();
+    private static final Filters filters = new Filters();
     
     public static void main(String[] args) throws IOException {
         for (String arg: args) {
@@ -47,26 +47,26 @@ public class TheVoice {
                      case "filters":
                          String[] paths = params[1].split(File.pathSeparator);
                          for (String filterPath: paths)
-                            filters.addFromFile(filterPath);
+                             filters.addFromFile(filterPath);
                          break;
                  }
-            } else artists.add(new LyricsManager(arg));
+            } else artists.add(new Artist(arg));
         }
                         
         artists.stream().forEach((artist) -> {
-            artist.addLyricsFromSource(source);
+            artist.addSongsFromSource(source);
         });
         
         for (String processor: processors) {
             System.out.println(processor + ":");
-            for (LyricsManager artist: artists) {
+            for (Artist artist: artists) {
                 System.out.print(artist.getName() + " ");
                 switch (processor) {
                     case "top5":
-                        System.out.println(artist.topWords(filters, 5));
+                        System.out.println(TopWordsProcessor.process(artist.getSongs(), filters, 5));
                         break;
                     case "count":
-                        System.out.println(artist.countDifferentWords());
+                        System.out.println(CountDifferentWordsProcessor.process(artist.getSongs()));
                         break;
                 }
             }

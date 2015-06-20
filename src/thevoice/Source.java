@@ -1,5 +1,7 @@
 package thevoice;
 
+import java.util.List;
+
 /**
  *
  * @author anna
@@ -7,7 +9,7 @@ package thevoice;
 public abstract class Source {
     String source;
     
-    abstract void addLyricsToWordsList(String artistName, WordsList wordsList);
+    abstract void addSongsForArtist(String artistName, List<Song> songs);
 
     void setSource(String param) {
         source = param;

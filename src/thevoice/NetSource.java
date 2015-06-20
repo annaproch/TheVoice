@@ -1,20 +1,22 @@
 package thevoice;
 
+import java.util.List;
+
 /**
  * Klasa abstrakcyjna internetowych źródeł tekstów.
  * @author anna
  */
 public abstract class NetSource extends Source {
-    private final String PROTOCOL_PREFIX = "https://";
+    private final String PROTOCOL_PREFIX = "http://";
     
     abstract String[] getSongsLinks(String name);
-    abstract String getSongStringFromLink(String link);
+    abstract Song getSongFromLink(String link);
 
     @Override
-    void addLyricsToWordsList(String artistName, WordsList wordsList) {
+    void addSongsForArtist(String artistName, List<Song> songs) {
         String[] songLinks = getSongsLinks(artistName);
         for (String link: songLinks)        
-            wordsList.addFromString(getSongStringFromLink(link));
+            songs.add(getSongFromLink(link));
     }
     
     @Override

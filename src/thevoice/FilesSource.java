@@ -3,6 +3,7 @@ package thevoice;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * Klasa do obsługi plików jako źrodła tekstów piosenek.
@@ -34,10 +35,11 @@ public class FilesSource extends Source {
     }
 
     @Override
-    void addLyricsToWordsList(String name, WordsList wordsList) {
+    void addSongsForArtist(String name, List<Song> songs) {
         String artistPath = source + "/" + name;
         File[] files = TxtFilesFromFolder(artistPath);
-        for (File file: files)
-            wordsList.addFromFile(file.toString());
+        for (File file: files) {
+            songs.add(new Song(file.getName(), textStringFromFile(file.getPath())));
+        }
     }
 }
