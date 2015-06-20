@@ -2,17 +2,13 @@ package thevoice;
 
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map.Entry;
 
 /**
- * Klasa odpowiedzialna za wyznaczenie statystyk dla danej listy słów z tekstów
- * piosenek.
- * Dla listy słów wyznacza liczbę wystąpień każdego słowa. Zlicza różne słowa
- * i podaje listę najczęściej występujacych.
+ * Lista par: słowo i liczby wystąpień tego słowa na liście słów podanej w konstruktorze.
  * @author anna
  */
-public class OccurenceList extends LinkedList{
+public class OccurenceList extends LinkedList {
 
     public OccurenceList(WordsList text) {
         WordsList sortedWords = new WordsList(text);
@@ -23,59 +19,54 @@ public class OccurenceList extends LinkedList{
             for (String word : sortedWords) {
                 if (word.equals(currentWord)) currentCounter++;
                 else {
-                    this.add(new OccurencePair<>(currentWord, currentCounter));
+                    this.add(new OccurencePair(currentWord, currentCounter));
                     currentCounter = 1;
                     currentWord = word;
                 }
             }
-            this.add(new OccurencePair<>(currentWord, currentCounter));
+            this.add(new OccurencePair(currentWord, currentCounter));
         }
     }
 
     protected void sort() {
         Collections.sort(this, (OccurencePair o1, OccurencePair o2)
-                -> ((Comparable) o2.getValue()).compareTo(o1.getValue()));
+                -> (o2.getValue()).compareTo(o1.getValue()));
     }
-
 
     /**
      * Klasa reprezentująca parę słowo i liczba jego wystąpień w tekście.
      * Implmentuje interfejs Map.Entry.
      */
-    private class OccurencePair<K, V> implements Entry<K, V> {
+    private class OccurencePair implements Entry<String, Integer> {
 
-        private final K key;
-        private V value;
+        private final String word;
+        private Integer counter;
 
-        public OccurencePair(final K key) {
-            this.key = key;
-        }
-
-        public OccurencePair(final K key, final V value) {
-            this.key = key;
-            this.value = value;
+        public OccurencePair(final String key, final Integer value) {
+            this.word = key;
+            this.counter = value;
         }
 
         @Override
-        public K getKey() {
-            return key;
+        public String getKey() {
+            return word;
         }
 
         @Override
-        public V getValue() {
-            return value;
+        public Integer getValue() {
+            return counter;
         }
 
         @Override
-        public V setValue(final V value) {
-            final V oldValue = this.value;
-            this.value = value;
+        public Integer setValue(final Integer value) {
+            final Integer oldValue = this.counter;
+            this.counter = value;
             return oldValue;
         }
 
         @Override
         public String toString() {
-            return key + "=" + value;
+            return word + "=" + counter;
         }
     }
 }

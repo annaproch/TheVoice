@@ -5,21 +5,24 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
- *
+ * Klasa umożliwiająca operacje na plikach i folderach.
+ * Obsługuje zwracanie wszytskich plików z katalogu o danym rozszerzeniu oraz
+ * zwracanie zawartości pliku jako String.
  * @author anna
  */
 public class FilesManager {
     
-    static File[] TxtFilesFromFolder(String path) {
+    public static File[] FilesFromFolder(String path, String extension) {
         File f = new File(path);
         if (f.exists() && f.isDirectory())
             return f.listFiles(
-                    (File directory, String fileName) -> fileName.endsWith(".txt")
+                    (File directory, String fileName) -> fileName.endsWith("." + extension)
             );
+        else System.err.println("Directory " + path + " doesn't exist");
         return new File[]{};
     }
     
-    static String textStringFromFile(String path) {
+    public static String textStringFromFile(String path) {
         File f = new File(path);
         if (f.exists() && f.isFile())
             try {

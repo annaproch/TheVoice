@@ -1,7 +1,7 @@
 package thevoice;
 
 /**
- *
+ * Klasa reprezentująca piosenkę.
  * @author anna
  */
 public class Song {
@@ -13,7 +13,15 @@ public class Song {
         this.lyrics = lyrics;
     }
     
-    String getLyrics() {
+    public String getLyrics() {
         return lyrics;
+    }
+    
+    public String getTitle() {
+        return title;
+    }
+    
+    public int addLyricsToWordsList(WordsList words, boolean limitEnabled, int limit) {
+        return words.addFromString(lyrics, limitEnabled, limit);
     }
 }

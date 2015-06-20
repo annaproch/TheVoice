@@ -4,29 +4,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Klasa, która zarządza tekstami piosenek. Pozwala na dodawanie 
- * z różnych źrodeł oraz umożliwia wyznaczanie statystyk: zliczanie różnych
- * oraz najczęściej występujacych słów w dodanych tekstach.
+ * Klasa, która reprezentuje artystę.
  * @author anna
  */
 public class Artist {
-    private final String name;
+    private final String artistName;
     private final List<Song> songs;
     
     Artist(String name) {
-        this.name = name;
+        this.artistName = name;
         this.songs = new ArrayList<>();
     }
     
     public void addSongsFromSource(Source source) {
-        source.addSongsForArtist(name, songs);
-    }
-
-    String getName() {
-        return name;
+        source.addSongsForArtist(artistName, songs);
     }
     
-    List<Song> getSongs() {
+    public void songsToWordsList(WordsList words, boolean limitEnabled, int limit) {
+        for (Song song: songs) {
+            if (limitEnabled && limit <= 0)
+                break;
+            int addedCount = song.addLyricsToWordsList(words, limitEnabled, limit);
+            limit -= addedCount;
+        }
+    }
+
+    public String getName() {
+        return artistName;
+    }
+    
+    public List<Song> getSongs() {
         return new ArrayList<>(songs);
     }
     

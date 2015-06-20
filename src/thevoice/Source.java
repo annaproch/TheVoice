@@ -3,15 +3,15 @@ package thevoice;
 import java.util.List;
 
 /**
- *
+ * Klasa reprezentująca źródło, z które czerpane są teksty piosenek.
  * @author anna
  */
 public abstract class Source {
-    String source;
+    protected String source;
     
-    abstract void addSongsForArtist(String artistName, List<Song> songs);
+    public abstract void addSongsForArtist(String artistName, List<Song> songs);
 
-    void setSource(String param) {
+    public void setSource(String param) {
         source = param;
     }
 }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class TheVoice {
     private static final ArrayList<Artist> artists = new ArrayList<>();
     private static Source source;
-    private static String[] processors;
+    private static String[] processorNames;
     private static final Filters filters = new Filters();
     
     public static void main(String[] args) throws IOException {
@@ -42,7 +42,7 @@ public class TheVoice {
                          source.setSource(params[1]);
                          break;
                      case "processors":
-                         processors = params[1].split(",");
+                         processorNames = params[1].split(",");
                          break;
                      case "filters":
                          String[] paths = params[1].split(File.pathSeparator);
@@ -57,19 +57,18 @@ public class TheVoice {
             artist.addSongsFromSource(source);
         });
         
-        for (String processor: processors) {
-            System.out.println(processor + ":");
-            for (Artist artist: artists) {
-                System.out.print(artist.getName() + " ");
-                switch (processor) {
+        for (String processorName: processorNames) {
+            System.out.println(processorName + ":");
+                switch (processorName) {
                     case "top5":
-                        System.out.println(TopWordsProcessor.process(artist.getSongs(), filters, 5));
+                        TopWordsProcessor topProcessor = new TopWordsProcessor();
+                        topProcessor.run(artists, false, filters, 5);
                         break;
                     case "count":
-                        System.out.println(CountDifferentWordsProcessor.process(artist.getSongs()));
+                        DifferentWordsProcessor differentProcessor = new DifferentWordsProcessor();
+                        differentProcessor.run(artists, false, -1);
                         break;
                 }
-            }
             System.out.println("***");
         }
     }

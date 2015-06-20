@@ -3,7 +3,8 @@ package thevoice;
 import java.util.ArrayList;
 
 /**
- * Lista słów umożliwiająca dodawanie wyrazów z pliku.
+ * Lista słów umożliwiająca dodawanie wyrazów ze stringa
+ * zawierającego tekst.
  * @author anna
  */
 public class WordsList extends ArrayList<String> {
@@ -15,13 +16,18 @@ public class WordsList extends ArrayList<String> {
         this.addAll(list.getWords());
     }
     
-    ArrayList<String> getWords() {
+    public ArrayList<String> getWords() {
         return new ArrayList<>(this);
     }
     
-    void addFromString(String text) {
+    public int addFromString(String text, boolean limitEnabled, int limit) {
         String[] slowa = text.split(SPLIT_REGEX);
-        for (String word: slowa)
-            this.add(word.toLowerCase());
+        int size;
+        if (limitEnabled)
+            size = Math.min(limit, slowa.length);
+        else size = slowa.length;
+        for (int i = 0; i < size; i++)
+            this.add(slowa[i].toLowerCase());
+        return size;
     } 
 }
