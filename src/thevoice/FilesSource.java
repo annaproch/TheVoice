@@ -13,33 +13,12 @@ import java.util.List;
  */
 public class FilesSource extends Source {
     
-    File[] TxtFilesFromFolder(String path) {
-        File f = new File(path);
-        if (f.exists() && f.isDirectory())
-            return f.listFiles(
-                    (File directory, String fileName) -> fileName.endsWith(".txt")
-            );
-        return new File[]{};
-    }
-    
-    static String textStringFromFile(String path) {
-        File f = new File(path);
-        if (f.exists() && f.isFile())
-            try {
-                byte bytes[] = java.nio.file.Files.readAllBytes(f.toPath());
-                return new String(bytes, StandardCharsets.UTF_8);
-            } catch (IOException e) {
-                System.err.println("Error during reading from file");
-            }
-        return "";
-    }
-
     @Override
     void addSongsForArtist(String name, List<Song> songs) {
         String artistPath = source + "/" + name;
-        File[] files = TxtFilesFromFolder(artistPath);
+        File[] files = FilesManager.TxtFilesFromFolder(artistPath);
         for (File file: files) {
-            songs.add(new Song(file.getName(), textStringFromFile(file.getPath())));
+            songs.add(new Song(file.getName(), FilesManager.textStringFromFile(file.getPath())));
         }
     }
 }

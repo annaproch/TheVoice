@@ -13,7 +13,7 @@ import org.jsoup.select.Elements;
  * Umożliwia pobranie tekstów dla danego wykonawcy.
  * @author anna
  */
-public class TekstyOrg extends NetSource {
+public class TekstyOrgSource extends NetSource {
 
     @Override
     String[] getSongsLinks(String name) {

@@ -17,7 +17,7 @@ import org.jsoup.nodes.Element;
  * 
  * @author anna
  */
-public class AZLyrics extends NetSource {
+public class AZLyricsSource extends NetSource {
     
     private final String FAKE_LINK = "http://students.mimuw.edu.pl/~ap360585/azlyrics/";
     

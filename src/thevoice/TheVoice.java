@@ -31,10 +31,10 @@ public class TheVoice {
                                 source = new FilesSource();
                                 break;
                             case "azlyrics.com":
-                                source = new AZLyrics();
+                                source = new AZLyricsSource();
                                 break;
                             case "teksty.org":
-                                source = new TekstyOrg();
+                                source = new TekstyOrgSource();
                                 break;
                          }
                          break;

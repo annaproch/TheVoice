@@ -12,12 +12,9 @@ import java.util.Map.Entry;
  * i podaje listę najczęściej występujacych.
  * @author anna
  */
-public class Statistics {
+public class OccurenceList extends LinkedList{
 
-    private final List list;
-
-    Statistics(WordsList text) {
-        list = new LinkedList<>();
+    public OccurenceList(WordsList text) {
         WordsList sortedWords = new WordsList(text);
         Collections.sort(sortedWords);
         if (sortedWords.size() > 0) {
@@ -26,28 +23,20 @@ public class Statistics {
             for (String word : sortedWords) {
                 if (word.equals(currentWord)) currentCounter++;
                 else {
-                    list.add(new OccurencePair<>(currentWord, currentCounter));
+                    this.add(new OccurencePair<>(currentWord, currentCounter));
                     currentCounter = 1;
                     currentWord = word;
                 }
             }
-            list.add(new OccurencePair<>(currentWord, currentCounter));
+            this.add(new OccurencePair<>(currentWord, currentCounter));
         }
     }
 
-    private void sort() {
-        Collections.sort(list, (OccurencePair o1, OccurencePair o2)
+    protected void sort() {
+        Collections.sort(this, (OccurencePair o1, OccurencePair o2)
                 -> ((Comparable) o2.getValue()).compareTo(o1.getValue()));
     }
 
-    public List getTheMostCommon(int resultsNumber) {
-        sort();
-        return list.subList(0, Math.min(resultsNumber, list.size()));
-    }
-    
-    public int countDifferentWords() {
-        return list.size();
-    }
 
     /**
      * Klasa reprezentująca parę słowo i liczba jego wystąpień w tekście.

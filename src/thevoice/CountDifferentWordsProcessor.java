@@ -12,7 +12,7 @@ public class CountDifferentWordsProcessor {
         WordsList words = new WordsList();
         for (Song song: songs)
             words.addFromString(song.getLyrics());
-        Statistics stats = new Statistics(words);
-        return stats.countDifferentWords();
+        OccurenceList occurenceList = new OccurenceList(words);
+        return occurenceList.size();
     }
 }

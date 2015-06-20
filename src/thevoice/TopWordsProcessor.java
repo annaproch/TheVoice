@@ -13,8 +13,9 @@ public class TopWordsProcessor {
         for (Song song: songs)
             words.addFromString(song.getLyrics());
         words.removeAll(filters.getWords());
-        Statistics stats = new Statistics(words);
-        return stats.getTheMostCommon(wordsNumber);
+        OccurenceList occurenceList = new OccurenceList(words);
+        occurenceList.sort();
+        return occurenceList.subList(0, Math.min(wordsNumber, occurenceList.size()));
     }
     
     

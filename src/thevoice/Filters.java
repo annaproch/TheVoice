@@ -12,7 +12,7 @@ public class Filters {
     List<String> words = new ArrayList<>();
     
     void addFromFile(String path) {
-        String text = FilesSource.textStringFromFile(path);
+        String text = FilesManager.textStringFromFile(path);
         String[] slowa = text.split("\\s+");
         for (String word: slowa)
             words.add(word.toLowerCase());
